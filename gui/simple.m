@@ -22,7 +22,7 @@ function varargout = simple(varargin)
 
 % Edit the above text to modify the response to help simple
 
-% Last Modified by GUIDE v2.5 10-Jun-2016 15:24:04
+% Last Modified by GUIDE v2.5 10-Jun-2016 15:29:50
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -92,6 +92,7 @@ function btn_open_Callback(hObject, eventdata, handles)
 s = serial('COM3');
 s.InputBufferSize = 50000;
 s.BaudRate = 115200;
+s.BytesAvailableFcnMode = 'terminator';
 try
     fopen(s);
     handles.serial = s;
@@ -110,6 +111,20 @@ function btn_close_Callback(hObject, eventdata, handles)
 try
     fclose(handles.serial);
     disp('serial closed');
+catch ex
+    disp(ex.message);
+end
+
+
+% --- Executes on button press in btn_read.
+function btn_read_Callback(hObject, eventdata, handles)
+% hObject    handle to btn_read (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+try
+    s = handles.serial;
+    out = fscanf(s);
+    disp(out);
 catch ex
     disp(ex.message);
 end
