@@ -94,7 +94,7 @@ s = serial('COM3');
 s.OutputBufferSize = 5120000;
 s.InputBufferSize = 5120000;
 s.BaudRate = 115200;
-s.BytesAvailableFcnMode = 'terminator';
+s.BytesAvailableFcnMode = 'byte';
 s.Timeout = 20;
 % get(s);
 try
@@ -127,8 +127,16 @@ function btn_read_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 try
     s = handles.serial;
-    out = fscanf(s);
-    disp(out);
+    n = get(s, 'BytesAvailable');
+    disp(n);
+    
+    % use \n as terminator
+    %     out = fscanf(s);
+    %     disp(out);
+    
+    % read by bytes length, NOTE: char(out') 
+    out = fread(s,n,'char');
+    disp(char(out'));
 catch ex
     disp(ex.message);
 end
