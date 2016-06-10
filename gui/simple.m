@@ -22,7 +22,7 @@ function varargout = simple(varargin)
 
 % Edit the above text to modify the response to help simple
 
-% Last Modified by GUIDE v2.5 10-Jun-2016 15:35:22
+% Last Modified by GUIDE v2.5 10-Jun-2016 15:42:58
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -131,6 +131,19 @@ catch ex
 end
 
 
+% --- Executes on button press in btn_write.
+function btn_write_Callback(hObject, eventdata, handles)
+% hObject    handle to btn_write (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+try
+    s = handles.serial;
+    data = handles.dataToSend;
+    fprintf(s, data);
+catch ex
+    disp(ex.message);
+end
+
 % --- Executes on button press in btn_read_file.
 function btn_read_file_Callback(hObject, eventdata, handles)
 % hObject    handle to btn_read_file (see GCBO)
@@ -144,3 +157,5 @@ catch ex
     disp(ex.message);
 end
 guidata(hObject,handles);
+
+
