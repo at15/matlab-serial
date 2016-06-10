@@ -327,8 +327,8 @@ if(strcmp(get(hObject,'string') , 'Open Serial Port'))
                                 'Parity',handles.verifiedBits,'StopBits',handles.stopBit,'FlowControl',...
                                 handles.flowControl,'terminator',char(13),'BytesAvailableFcnCount', 10,...
                                 'BytesAvailableFcn', {@bytes, handles},'TimerPeriod', 0.05, 'timerfcn', {@dataDisp, handles});
-        %set(handles.serial,'OutputBufferSize',512000);
-        %set(handles.serial,'InputBufferSize',512000);
+        set(handles.serial,'OutputBufferSize',512000);
+        set(handles.serial,'InputBufferSize',512000);
         handles.serial.BytesAvailableFcnMode = 'terminator';
         % 将串口对象的句柄作为用户数据，存入窗口对象
         %set(handles.figure1, 'UserData', scom);
@@ -363,17 +363,21 @@ else
 end
   
 function dataDisp(hObject, eventdata, handles)
+% disp('data disp');
 %	串口的TimerFcn回调函数
 %   串口数据显示
 %% 获取参数
 hasData = getappdata(handles.figure1, 'hasData'); %串口是否收到数据
 strRec = getappdata(handles.figure1, 'strRec');   %串口数据的字符串形式，定时显示该数据
+% disp('aaaa');
+% hasData = 0;
 %% 若串口没有接收到数据，先尝试接收串口数据
 if ~hasData
     bytes(hObject, eventdata, handles);
 end
 %% 若串口有数据，显示串口数据
 if hasData
+    disp('has data!');
     %% 给数据显示模块加互斥锁
     %% 在执行显示数据模块时，不接受串口数据，即不执行BytesAvailableFcn回调函数
     setappdata(handles.figure1, 'isShow', true); 
@@ -392,6 +396,7 @@ if hasData
 end
  
 function bytes(hObject, enentdata, handles)
+disp('bytes available !');
 %   串口的BytesAvailableFcn回调函数
 %   串口接收数据
 %% 获取参数
