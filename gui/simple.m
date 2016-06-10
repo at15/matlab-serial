@@ -90,10 +90,13 @@ function btn_open_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 s = serial('COM3');
+% s = serial('COM4');
 s.OutputBufferSize = 5120000;
 s.InputBufferSize = 5120000;
 s.BaudRate = 115200;
 s.BytesAvailableFcnMode = 'terminator';
+s.Timeout = 20;
+% get(s);
 try
     fopen(s);
     handles.serial = s;
@@ -140,6 +143,7 @@ try
     s = handles.serial;
     data = handles.dataToSend;
     fprintf(s, data);
+    % fprintf(s, '%s\n', data, 'async');
 catch ex
     disp(ex.message);
 end
