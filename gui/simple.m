@@ -27,11 +27,11 @@ function varargout = simple(varargin)
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
-                   'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @simple_OpeningFcn, ...
-                   'gui_OutputFcn',  @simple_OutputFcn, ...
-                   'gui_LayoutFcn',  [] , ...
-                   'gui_Callback',   []);
+    'gui_Singleton',  gui_Singleton, ...
+    'gui_OpeningFcn', @simple_OpeningFcn, ...
+    'gui_OutputFcn',  @simple_OutputFcn, ...
+    'gui_LayoutFcn',  [] , ...
+    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
     gui_State.gui_Callback = str2func(varargin{1});
 end
@@ -63,7 +63,7 @@ guidata(hObject, handles);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = simple_OutputFcn(hObject, eventdata, handles) 
+function varargout = simple_OutputFcn(hObject, eventdata, handles)
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -90,7 +90,8 @@ function btn_open_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 s = serial('COM3');
-s.InputBufferSize = 50000;
+s.OutputBufferSize = 5120000;
+s.InputBufferSize = 5120000;
 s.BaudRate = 115200;
 s.BytesAvailableFcnMode = 'terminator';
 try
