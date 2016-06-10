@@ -22,7 +22,7 @@ function varargout = simple(varargin)
 
 % Edit the above text to modify the response to help simple
 
-% Last Modified by GUIDE v2.5 10-Jun-2016 15:10:23
+% Last Modified by GUIDE v2.5 10-Jun-2016 15:24:04
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -72,6 +72,17 @@ function varargout = simple_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
+% --- Executes during object deletion, before destroying properties.
+function figure1_DeleteFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+try
+    fclose(handles.serial);
+    disp('serial closed');
+catch ex
+    disp(ex.message);
+end
 
 % --- Executes on button press in btn_open.
 function btn_open_Callback(hObject, eventdata, handles)
@@ -83,7 +94,22 @@ s.InputBufferSize = 50000;
 s.BaudRate = 115200;
 try
     fopen(s);
+    handles.serial = s;
+    disp('serial opened');
 catch ex
     % disp(ex);
+    disp(ex.message);
+end
+guidata(hObject,handles);
+
+% --- Executes on button press in btn_close.
+function btn_close_Callback(hObject, eventdata, handles)
+% hObject    handle to btn_close (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+try
+    fclose(handles.serial);
+    disp('serial closed');
+catch ex
     disp(ex.message);
 end
