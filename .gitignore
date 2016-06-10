@@ -1,0 +1,7 @@
+# ignore matlab files
+
+*.asv
+
+
+# general
+*.log
